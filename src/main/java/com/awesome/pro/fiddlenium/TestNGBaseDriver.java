@@ -8,6 +8,7 @@ import com.awesome.pro.fiddlenium.impl.WebDriverFactory;
 import com.awesome.pro.fiddlenium.references.FiddleniumReferences;
 import com.awesome.pro.proxy.INetworkProxy;
 import com.awesome.pro.proxy.ProxyManager;
+import com.awesome.pro.utilities.PropertyFileUtility;
 
 /**
  * Base driver script which can be extended by test classes.
@@ -42,8 +43,13 @@ public class TestNGBaseDriver {
 	@BeforeClass(alwaysRun = true)
 	public void suiteSetup() {
 		FiddleniumReferences.initialize();
-		this.proxy = ProxyManager.getInstance(
-				FiddleniumReferences.CONFIG_FILE);
+		if (isProxyNeeded()) {
+			LOGGER.info("Starting proxy server.");
+			this.proxy = ProxyManager.getInstance(
+					FiddleniumReferences.CONFIG_FILE);
+		} else {
+			LOGGER.info("Not starting proxy server.");
+		}
 		this.driver = WebDriverFactory.getWebDriverInstance();
 		this.driver.suiteSetup();
 	}
@@ -58,6 +64,17 @@ public class TestNGBaseDriver {
 		driver.deleteAllCookies();
 		driver.suiteTearDown();
 		this.proxy.stop();
+	}
+
+	/**
+	 * @return Whether to start proxy server as configured in property file.
+	 */
+	private boolean isProxyNeeded() {
+		final PropertyFileUtility config = new PropertyFileUtility(
+				FiddleniumReferences.CONFIG_FILE);
+		return config.getBooleanValue(
+				FiddleniumReferences.PROPERTY_ENABLE_PROXY,
+				FiddleniumReferences.DEFAULT_ENABLE_PROXY);
 	}
 
 	/**

@@ -18,11 +18,13 @@ public class FiddleniumReferences {
 	public static final String CONFIG_FILE = "Fiddlenium.properties";
 
 	// Configuration properties.
-	public final static String PROPERTY_BROWSER = "browser";
+	public static final String PROPERTY_BROWSER = "browser";
+	public static final String PROPERTY_ENABLE_PROXY = "enableProxy";
 
 	// Default configurations.
 	public static final String DEFAULT_BROWSER = "chrome";
 	public static final Browser DEFAULT_BROWSER_ENUM = Browser.CHROME;
+	public static final boolean DEFAULT_ENABLE_PROXY = false;
 
 	public static final String PROXY_PAGE_KEY = "page";
 	public static final String FIDDLER_CONF_FILE = "FiddlerConfig.properties";
