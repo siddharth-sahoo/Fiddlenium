@@ -34,8 +34,9 @@ public class Locators {
 	public static By getLocator(String locatorType, String expression) {
 		LocatorType parsedLocatorType = LocatorType.parseLocator(locatorType);
 		
-		if(parsedLocatorType == null) {
-			LOGGER.error("Invalid locator specified: " + locatorType);
+		if(parsedLocatorType == null || expression == null) {
+			LOGGER.error("Invalid locator specified: " + locatorType
+					+ " " + expression);
 			return null;
 		}
 			
@@ -66,6 +67,49 @@ public class Locators {
 				
 			default:
 				LOGGER.error("Unhandled locator type: " + parsedLocatorType.toString());
+				return null;
+		}
+	}
+
+	/**
+	 * @param locatorType Locator type - xpath, id etc.
+	 * @param expression Locator expression according to the type.
+	 * @return Locator which can be used in web driver.
+	 */
+	public static By getLocator(LocatorType locatorType, String expression) {
+		if(locatorType == null || expression == null) {
+			LOGGER.error("Invalid locator specified: " + locatorType
+					+ " " + expression);
+			return null;
+		}
+
+		switch (locatorType) {
+			case XPATH:
+				return By.xpath(expression);
+			
+			case CSS_SELECTOR:
+				return By.cssSelector(expression);
+		
+			case ID:
+				return By.id(expression);
+		
+			case NAME:
+				return By.name(expression);
+		
+			case CLASS_NAME:
+				return By.className(expression);
+		
+			case TAG_NAME:
+				return By.tagName(expression);
+		
+			case LINK_TEXT:
+				return By.linkText(expression);
+				
+			case PARTIAL_LINK_TEXT:
+				return By.partialLinkText(expression);
+				
+			default:
+				LOGGER.error("Unhandled locator type: " + locatorType.toString());
 				return null;
 		}
 	}

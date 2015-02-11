@@ -27,7 +27,7 @@ public class TestNGBaseDriver {
 	/**
 	 * Instance of proxy actions.
 	 */
-	private INetworkProxy proxy;
+	protected INetworkProxy proxy;
 	
 	/**
 	 * Root logger instance.
