@@ -63,7 +63,9 @@ public class TestNGBaseDriver {
 	public void suiteTearDown() {
 		driver.deleteAllCookies();
 		driver.suiteTearDown();
-		this.proxy.stop();
+		if (isProxyNeeded()) {
+			this.proxy.stop();
+		}
 	}
 
 	/**
